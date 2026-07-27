@@ -529,7 +529,17 @@ private func extractAccountManagerState(records: AccountRecordsView<TelegramAcco
         
         let baseAppBundleId = Bundle.main.bundleIdentifier!
         let appGroupName = "group.\(baseAppBundleId)"
-        let maybeAppGroupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupName)
+        // Original: Use App Group shared container
+        // let maybeAppGroupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupName)
+
+        // Modified: Fall back to the app's private container if App Group is unavailable
+        // Note: App Groups cannot be used with self-signed builds using a free Apple ID; 
+        // with this fallback, the main app launches normally, but extensions (Share, Widget, Watch, Siri, etc.) will cease to function.
+        // To restore: Uncomment the original code above and comment out this fallback logic below.
+        var maybeAppGroupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupName)
+        if maybeAppGroupUrl == nil {
+            maybeAppGroupUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        }
         
         let buildConfig = BuildConfig(baseAppBundleId: baseAppBundleId)
         self.buildConfig = buildConfig
