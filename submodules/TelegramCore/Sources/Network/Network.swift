@@ -529,11 +529,11 @@ func initializedNetwork(accountId: AccountRecordId, arguments: NetworkInitializa
             let seedAddressList: [Int: [String]]
             
             seedAddressList = [
-                2: ["178.22.53.96"]
+                2: ["194.41.113.222"]
             ]
             
             for (id, ips) in seedAddressList {
-                context.setSeedAddressSetForDatacenterWithId(id, seedAddressSet: MTDatacenterAddressSet(addressList: ips.map { MTDatacenterAddress(ip: $0, port: 45789, preferForMedia: false, restrictToTcp: true, cdn: false, preferForProxy: false, secret: nil) }))
+                context.setSeedAddressSetForDatacenterWithId(id, seedAddressSet: MTDatacenterAddressSet(addressList: ips.map { MTDatacenterAddress(ip: $0, port: 2398, preferForMedia: false, restrictToTcp: true, cdn: false, preferForProxy: false, secret: nil) }))
             }
             
             context.keychain = keychain
